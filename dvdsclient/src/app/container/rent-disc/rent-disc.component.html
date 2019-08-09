@@ -1,0 +1,192 @@
+<div nz-row>
+  <div nz-col nzSpan="8">
+    <nz-card style="width:100%;">
+      <nz-divider nzText="khách hàng"></nz-divider>
+
+      <div nz-row>
+        <div nz-col nzSpan="18">
+          <div style="width:100%;" class="example-input">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+              <input placeholder="Tìm khách hàng" nz-input [(ngModel)]="inputSearchClient"
+                (ngModelChange)="onChange($event)" [nzAutocomplete]="auto" />
+            </nz-input-group>
+
+            <ng-template #suffixIconButton>
+              <button nz-tooltip nzTitle="Thêm khách hàng vào hóa đơn!" nz-button nzType="primary" nzSearch>
+                <i nz-icon type="plus" theme="outline"></i>
+              </button>
+            </ng-template>
+
+
+            <nz-autocomplete #auto>
+              <nz-auto-option *ngFor="let option of optionsClient" [nzValue]="option.fullName">
+                <div (click)="chooseClient(option)">
+                  {{ option.id }}
+                  <a (click)="chooseClient(option)" target="_blank" rel="noopener noreferrer">
+                    {{ option.fullName }}
+                  </a>
+                  <span (click)="chooseClient(option)" class="global-search-item-count"> {{ option.dob }}</span>
+                </div>
+              </nz-auto-option>
+            </nz-autocomplete>
+          </div>
+        </div>
+        <div nz-col nzSpan="6">
+          <button nz-button nzType="primary" style="float: right"><i nz-icon type="search"></i>Quét Thẻ</button>
+        </div>
+      </div>
+      <div *ngIf="client.id" style="margin-top: 40px">
+        <div class="ant-descriptions-title ng-star-inserted">
+          {{client.fullName}}
+        </div>
+        <span class="ant-descriptions-item-content csp">Ngày Sinh: {{client.dob}}</span><br>
+        <span class="ant-descriptions-item-content csp">Email: {{client.email}}</span><br>
+        <span class="ant-descriptions-item-content csp">Điện thoại: {{client.phoneNumber}}</span><br>
+        <span class="ant-descriptions-item-content csp">Địa chỉ: {{ client.address }}</span><br>
+      </div>
+    </nz-card>
+
+    <nz-card style="width:100%;margin-top: 20px">
+
+      <div nz-row>
+        <nz-divider nzText="DVD"></nz-divider>
+        <div nz-col nzSpan="18">
+          <div style="width:100%;" class="example-input">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButtonAdd">
+              <input placeholder="Tìm DVD" nz-input [(ngModel)]="inputSearchDvd" (ngModelChange)="onChangeDvd($event)"
+                [nzAutocomplete]="auto1" />
+            </nz-input-group>
+            <ng-template #suffixIconButtonAdd>
+              <button (click)="handelAddDvd()" nz-tooltip nzTitle="Thêm DVD vào hóa đơn!" nz-button nzType="primary"
+                nzSearch>
+                <i nz-icon type="plus" theme="outline"></i>
+              </button>
+            </ng-template>
+            <nz-autocomplete #auto1>
+              <nz-auto-option *ngFor="let option of optionsDvd" [nzValue]="option.code">
+                <div (click)="chooseDvd(option)">
+                  {{ option.code }}
+                  <a (click)="chooseDvd(option)" target="_blank" rel="noopener noreferrer">
+                    {{ option.dvd.name }}
+                  </a>
+                  <span (click)="chooseDvd(option)" class="global-search-item-count">{{ option.dvd.price }}đ</span>
+                </div>
+              </nz-auto-option>
+            </nz-autocomplete>
+          </div>
+        </div>
+        <div nz-col nzSpan="6">
+          <button nz-button nzType="primary" style="float: right"><i nz-icon type="search"></i>Quét DVD</button>
+        </div>
+      </div>
+
+      <div *ngIf="dvd1 && dvd1.id" style="margin-top: 40px">
+        <div class="ant-descriptions-title ng-star-inserted">
+          {{dvd1.dvd.name}}
+        </div>
+        <span class="ant-descriptions-item-content csp">giá: {{dvd1.dvd.price}}</span><br>
+        <span class="ant-descriptions-item-content csp">mô tả: {{dvd1.dvd.note}}</span><br>
+      </div>
+    </nz-card>
+  </div>
+
+  <div nz-col nzSpan="1">
+  </div>
+
+  <div nz-col nzSpan="15">
+    <nz-card style="width:100%;">
+      <nz-divider nzText="HÓA ĐƠN"></nz-divider>
+
+      <nz-descriptions *ngIf="client.id" nzTitle="Thông tin khách hàng">
+        <nz-descriptions-item nzTitle="Họ tên">{{ client.fullName }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Telephone">{{ client.phoneNumber }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="address">{{ client.address }}</nz-descriptions-item>
+      </nz-descriptions>
+      <div style="min-height: 250px;width: 100%;">
+        <table border="1" style="width: 100%" >
+          <thead >
+            <tr>
+              <th  width="15%">
+                Mã DVD
+              </th>
+              <th  width="15%">
+                Tên DVD
+              </th>
+              <th width="15%">
+                Giá/Ngày
+              </th>
+              <th width="15%"><span>Tùy chọn</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of arrDvd">
+              <td>{{ data.code }}</td>
+              <td>{{ data.dvd.name }}</td>
+              <td>{{ data.dvd.price }}</td>
+              <td class="cttd">
+                <div zn-row>
+                  <label nz-checkbox [(ngModel)]="checked">Trả sau</label>
+                  <button nz-tooltip nzTitle="Xóa bản ghi" (click)="delete(data)" nz-button nzType="danger"><i nz-icon
+                      nzType="delete" nzTheme="outline"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div nz-row style="margin-top: 10px;">
+        <div nz-col nzSpan="12">
+
+        </div>
+
+        <div nz-col nzSpan="10">
+          <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <!-- <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email">Tiền thuế</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input formControlName="email" id="email" />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email">Giảm giá (%)</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input formControlName="email" id="email" />
+              </nz-form-control>
+            </nz-form-item> -->
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="email">Ngày trả</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <input nz-input formControlName="dateReturn" id="email" />
+              </nz-form-control>
+            </nz-form-item>
+
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24">
+                <div class="ant-descriptions-title ng-star-inserted">
+                  Tổng tiền:&nbsp;&nbsp;
+                </div>
+              </nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24">
+                <div class="ant-descriptions-title ng-star-inserted">
+                  4000000
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+
+            <div nz-row>
+              <div class="float-right" style="margin-right: 20px;">
+                <button nz-button nzType="default" style="margin-right: 15px">Đặt lại</button>
+                <button nz-button nzType="primary">Tạo hóa đơn</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </nz-card>
+  </div>
+</div>
