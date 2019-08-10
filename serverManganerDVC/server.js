@@ -10,6 +10,10 @@ const faker = require("faker");
 const { times } = require("lodash");
 var crypto = require('./utils/crypto');
 
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+
 //log mỗi khi có api gọi
 app.use(logger('dev'));
 
@@ -40,75 +44,88 @@ app.use('/api/order', require('./routes/order.route')());
 //{ force: true }
 // db.sequelize.sync().then(() => {
 db.sequelize.sync().then(async () => {
-    db.user.findOne({ where: { email: 'admin@admin.com' } }).then(r=>{
-        if(!r){
-            var user = {
-                email:"admin@admin.com",
-                fullName: 'admin',
-                dob:'2/2/1997',
-                gender:'male',
-                address: '610 hà huy giáp',
-                password: 'admin',
-                phoneNumber:'0399994511',
-                note: ''
-            }
-            db.user.create(user).then(r=>{
-                console.log(r.dataValues);
-            })
-        }
-    });
+    // db.user.findOne({ where: { email: 'admin@admin.com' } }).then(r=>{
+    //     if(!r){
+    //         var user = {
+    //             email:"admin@admin.com",
+    //             fullName: 'admin',
+    //             dob:'2/2/1997',
+    //             gender:'male',
+    //             address: '610 hà huy giáp',
+    //             password: 'admin',
+    //             phoneNumber:'0399994511',
+    //             note: ''
+    //         }
+    //         db.user.create(user).then(r=>{
+    //             console.log(r.dataValues);
+    //         })
+    //     }
+    // });
 
-    db.user.bulkCreate(
-        times(10, () => ({
-            fullName: faker.name.firstName(),
-            email: faker.internet.email(),
-            password: 123,
-            salt: crypto.genSalt(),
-            dob: '1997/12/12',
-            gender: 'male',
-            phoneNumber: faker.phone.phoneNumber(),
-            address: faker.address.country()
-        }))
-    );
+    // db.user.bulkCreate(
+    //     times(10, () => ({
+    //         fullName: faker.name.firstName(),
+    //         email: faker.internet.email(),
+    //         password: 123,
+    //         salt: crypto.genSalt(),
+    //         dob: '1997/12/12',
+    //         gender: 'male',
+    //         phoneNumber: faker.phone.phoneNumber(),
+    //         address: faker.address.country()
+    //     }))
+    // );
 
-    db.client.bulkCreate(
-        times(10, () => ({
-            fullName: faker.name.firstName(),
-            email: faker.internet.email(),
-            dob: '1997/12/12',
-            gender: 'male',
-            phoneNumber: faker.phone.phoneNumber(),
-            address: faker.address.country(),
-            userId: 1
-        }))
-    );
+    // db.client.bulkCreate(
+    //     times(10, () => ({
+    //         fullName: faker.name.firstName(),
+    //         email: faker.internet.email(),
+    //         dob: '1997/12/12',
+    //         gender: 'male',
+    //         phoneNumber: faker.phone.phoneNumber(),
+    //         address: faker.address.country(),
+    //         userId: 1
+    //     }))
+    // );
 
-    db.catalog.bulkCreate(
-        times(10, () => ({
-            name: faker.name.firstName(),
-            note: faker.internet.userName()
-        }))
-    );
+    // db.catalog.bulkCreate(
+    //     times(10, () => ({
+    //         name: faker.name.firstName(),
+    //         note: faker.internet.userName()
+    //     }))
+    // );
 
-    db.dvd.bulkCreate(
-        times(10, () => ({
-            name: faker.name.firstName(),
-            note: faker.internet.userName(),
-            supplier: faker.lorem.word(),
-            price: faker.random.number(0, 1000000),
-            catalogId: 1
-        }))
-    );
+    // db.dvd.bulkCreate(
+    //     times(10, () => ({
+    //         name: faker.name.firstName(),
+    //         note: faker.internet.userName(),
+    //         supplier: faker.lorem.word(),
+    //         price: faker.random.number(0, 1000000),
+    //         catalogId: 1
+    //     }))
+    // );
 
-    db.dvdDetail.bulkCreate(
-        times(10, () => ({
-            code: faker.random.number(),
-            status: 'RENT',
-            dvdId: 4
-        }))
-    );
+    // db.dvdDetail.bulkCreate(
+    //     times(10, () => ({
+    //         code: faker.random.number(),
+    //         status: 'RENT',
+    //         dvdId: 4
+    //     }))
+    // );
 
-    app.listen(config.PORT)
+
+
+    //socket 
+    const documents = {};
+
+    io.on("connection", socket => {
+        console.log(socket.id);
+        socket.on('new-message',r=>{
+            console.log(r);
+        })
+      });
+
+
+    http.listen(config.PORT);
     console.log(`serve is listening port ${config.PORT}`)
 })
 

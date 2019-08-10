@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/socket.io": "^2.1.2",
     "body-parser": "^1.18.2",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -29,7 +30,8 @@
     "npm": "^6.9.0",
     "path": "^0.12.7",
     "query-string": "^6.7.0",
-    "sequelize": "^5.8.9"
+    "sequelize": "^5.8.9",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "sequelize-cli": "^5.5.0"

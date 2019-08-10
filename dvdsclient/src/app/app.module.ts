@@ -39,6 +39,7 @@ import { DvdDetailComponent } from './container/manager-dvd/dvd-detail/dvd-detai
 import { ImageCtrComponent } from './components/image-ctr/image-ctr.component';
 import { FileUploadService } from './service/fileUpload/file-upload.service';
 import { ExchangeComponent } from './container/client/exchange/exchange.component';
+import { ChatService } from './service/chat/chat.service';
 
 registerLocaleData(en);
 
@@ -85,7 +86,8 @@ registerLocaleData(en);
     CatalogService,
     DvdDetailService,
     FileUploadService,
-    InvoicesService
+    InvoicesService,
+    ChatService
   ],
   bootstrap: [AppComponent]
 })
