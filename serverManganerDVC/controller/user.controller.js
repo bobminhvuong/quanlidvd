@@ -11,7 +11,20 @@ module.exports = {
     getUserById: getUserById,
     updateUser: upsertUser,
     deleteUser: deleteUser,
-    getCurrentUser: getCurrentUser
+    getCurrentUser: getCurrentUser,
+    getContact: getContact
+}
+
+async function getContact(req, res) {
+    var id = req.params.id;
+    db.contact.findAndCountAll({ where: { userId: id } }).then(r=>{
+        if(r){
+            res.send(r)
+        }else{
+            res.send([])
+        }
+    });
+  
 }
 
 function getCurrentUser(req, res) {
@@ -24,7 +37,7 @@ function getCurrentUser(req, res) {
                 } else {
                     res.send({ status: 500, msg: 'Not found user!' })
                 }
-            }else{
+            } else {
                 res.send({ status: 500, msg: 'Not found user!' })
             }
         });

@@ -29,7 +29,7 @@
 				<input type="text" placeholder="Search contacts..." />
 			</div>
 			<div id="contacts">
-				<ul style="list-style: none;" *ngIf="contacts && contacts.rows">
+				<ul style="list-style: none;margin-left: -40px;" *ngIf="contacts && contacts.rows">
 					<li *ngFor="let item of contacts.rows" class="contact active" (click)="chooseMes(item)">
 						<div class="wrap">
 							<span class="contact-status busy"></span>
@@ -58,12 +58,12 @@
 				</div>
 			</div>
 			<div class="messages">
-				<ul>
+				<!-- <ul>
 					<li *ngFor="let item of messages" [ngClass] ="item.userId === curUser.id ? 'replies' : 'send'">
 						<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
 						<p>{{item.message}}</p>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
 			<div class="message-input">
 				<div class="wrap">

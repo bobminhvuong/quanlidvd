@@ -1,3 +1,4 @@
+import { MessagesComponent } from './../container/messages/messages.component';
 import { ExchangeComponent } from './../container/client/exchange/exchange.component';
 import { DvdDetailComponent } from './../container/manager-dvd/dvd-detail/dvd-detail.component';
 import { CatalogComponent } from './../container/catalog/catalog.component';
@@ -35,7 +36,8 @@ const routes: Routes = [
             { path: 'warehouse', component: WarehouseComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'rent-disc', component: RentDiscComponent },
-            { path: 'catalog', component: CatalogComponent }
+            { path: 'catalog', component: CatalogComponent },
+            { path: 'messager', component: MessagesComponent }
         ]
     },
 ];

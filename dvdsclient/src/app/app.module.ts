@@ -40,6 +40,8 @@ import { ImageCtrComponent } from './components/image-ctr/image-ctr.component';
 import { FileUploadService } from './service/fileUpload/file-upload.service';
 import { ExchangeComponent } from './container/client/exchange/exchange.component';
 import { ChatService } from './service/chat/chat.service';
+import { MessagesComponent } from './container/messages/messages.component';
+import { InboxComponent } from './container/messages/inbox/inbox.component';
 
 registerLocaleData(en);
 
@@ -63,7 +65,9 @@ registerLocaleData(en);
     CoruCatalogComponent,
     DvdDetailComponent,
     ImageCtrComponent,
-    ExchangeComponent
+    ExchangeComponent,
+    MessagesComponent,
+    InboxComponent
   ],
   imports: [
     BrowserModule,

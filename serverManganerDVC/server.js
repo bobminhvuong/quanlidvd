@@ -12,6 +12,7 @@ var crypto = require('./utils/crypto');
 
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+var messCtrl = require('./controller/message.controller');
 
 
 //log mỗi khi có api gọi
@@ -38,6 +39,7 @@ app.use('/api/dvd', require('./routes/dvd.route')());
 app.use('/api/dvdDetail', require('./routes/dvdDetail.route')());
 app.use('/api/fileUpload', require('./routes/fileUpload.route')());
 app.use('/api/order', require('./routes/order.route')());
+app.use('/api/message', require('./routes/message.route')());
 //-------------------
 
 
@@ -54,6 +56,20 @@ db.sequelize.sync().then(async () => {
     //             address: '610 hà huy giáp',
     //             password: 'admin',
     //             phoneNumber:'0399994511',
+    //             note: ''
+    //         }
+    //         db.user.create(user).then(r=>{
+    //             console.log(r.dataValues);
+    //         })
+
+    //         var user = {
+    //             email:"test@admin.com",
+    //             fullName: 'test',
+    //             dob:'2/2/1997',
+    //             gender:'male',
+    //             address: '610 hà huy giáp',
+    //             password: '123',
+    //             phoneNumber:'0399994512',
     //             note: ''
     //         }
     //         db.user.create(user).then(r=>{
@@ -118,12 +134,23 @@ db.sequelize.sync().then(async () => {
     const documents = {};
 
     io.on("connection", socket => {
-        console.log(socket.id);
-        socket.on('new-message',r=>{
-            console.log(r);
-        })
-      });
+        socket.on('userInit',data=>{
+            documents[data.id] =socket.id;
+            console.log(documents);
+        });
 
+        socket.on('sendMes', async mes=>{
+            var newMes = await messCtrl.saveMessage(mes);
+            if(newMes){
+                mes.time = new Date();
+                socket.to(documents[mes.userReceiptId]).emit('newMessage',mes)
+            }
+        });
+
+        socket.on('disconect',data=>{
+            console.log(data);
+        })
+    });
 
     http.listen(config.PORT);
     console.log(`serve is listening port ${config.PORT}`)

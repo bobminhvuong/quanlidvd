@@ -53,4 +53,20 @@ export class UserService {
       catchError(this.mainSV.handleError)
     );
   }
+
+  getContact(id): Observable<any> {
+    const url = this.mainSV.host();
+    return this.http.get(url + '/user/contact/' + id, this.mainSV.getHttpOptions()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  getMesage(filter): Observable<any> {
+    const url = this.mainSV.host();
+    filter = JSON.stringify(filter);
+    return this.http.get(url + '/message?filter=' + filter, this.mainSV.getHttpOptions()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
 }

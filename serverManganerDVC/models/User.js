@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
 
     User.associate = (models) => {
         User.belongsTo(models.image);
+        User.hasMany(models.contact);
     };
 
 
