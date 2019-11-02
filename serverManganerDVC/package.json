@@ -30,7 +30,7 @@
     "npm": "^6.9.0",
     "path": "^0.12.7",
     "query-string": "^6.7.0",
-    "sequelize": "^5.8.9",
+    "sequelize": "^5.15.1",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
