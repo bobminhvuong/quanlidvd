@@ -31,7 +31,7 @@
     "path": "^0.12.7",
     "query-string": "^6.7.0",
     "sequelize": "^5.8.9",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "sequelize-cli": "^5.5.0"
